@@ -1,7 +1,9 @@
 package org.example.calculator;
 
-public interface TaxCalculator {
-    int calculateTax(int income);
+import java.math.BigDecimal;
 
-    int incomeAfterTax(int income);
+public interface TaxCalculator {
+    BigDecimal calculateTax(double income);
+
+    BigDecimal incomeAfterTax(double income);
 }
