@@ -9,6 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>Interface</module>
+        <module>Consumer</module>
+        <module>Provider</module>
     </modules>
     <packaging>pom</packaging>
 
