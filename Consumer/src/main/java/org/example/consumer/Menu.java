@@ -1,39 +1,71 @@
 package org.example.consumer;
 
-import org.example.taxcalculator.TaxCalculator;
-
-import java.util.ServiceLoader;
+import java.util.Scanner;
 
 public class Menu {
 
+    public static Scanner scanner = new Scanner(System.in);
+
     public void run() {
-        pensioner();
-        workingAge();
+        int choice;
+        do {
+            printMenu();
+            choice = getAge();
+            handleChoice(choice);
+        } while (valid(choice) );
     }
 
-    private void pensioner() {
-        TaxCalculator calculator = getTaxCalculator("Pensioner");
-        var tax = calculator.calculateTax(10000);
-        var netIncome = calculator.incomeAfterTax(10000);
-        System.out.println("Pensioner: tax is " + tax + " kr + net income is " + netIncome + "kr.");
+    private boolean valid(int choice) {
+        return choice < 0 || choice >= 15;
     }
 
-    private void workingAge() {
-        TaxCalculator calculator = getTaxCalculator("Working");
-        var tax = calculator.calculateTax(10000);
-        var netIncome = calculator.incomeAfterTax(10000);
-        System.out.println("Age 15 - 65: tax is " + tax + " kr + net income is " + netIncome + "kr.");
+    private void handleChoice(int age) {
+        if(age == 0)
+            exit();
+        if(age < 0)
+            invalidAge();
+        if(age < 15)
+            minor();
+
+        TaxCalculation taxCalculation = new TaxCalculation(age);
+        taxCalculation.start();
     }
 
-    private static TaxCalculator getTaxCalculator(String ageGroup) {
-        ServiceLoader<TaxCalculator> serviceLoader = ServiceLoader.load(TaxCalculator.class);
+    private void minor() {
+        System.out.println("Please ask a guardian to contact the Tax Office on your behalf.");
+    }
 
-        var calculator = serviceLoader.stream()
-                .filter(provider -> provider.type().getSimpleName().startsWith(ageGroup))
-                .map(ServiceLoader.Provider::get)
-                .findFirst();
+    private void invalidAge() {
+        System.out.println("Please enter a valid age.");
+    }
 
-        return calculator.orElseThrow(() -> new IllegalArgumentException(ageGroup + " age group not found"));
+    private void exit() {
+        System.out.println("Thank-you for visiting Tax Declaration Office Help Service!");
+    }
+
+    private int getAge() {
+        int choice;
+        while (true) {
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                invalidAge();
+            }
+        }
+        return choice;
+    }
+
+    private void printMenu() {
+        System.out.println(
+                """
+                
+                Welcome to the Tax Declaration Office Help Service
+                
+                Please enter your age or '0' to exit
+                """
+        );
+
     }
 
 }
