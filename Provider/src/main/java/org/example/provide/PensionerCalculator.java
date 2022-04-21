@@ -1,9 +1,9 @@
 package org.example.provide;
 
 import org.example.calculator.TaxCalculator;
+import org.example.mapper.Calculate;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class PensionerCalculator implements TaxCalculator {
 
@@ -11,16 +11,11 @@ public class PensionerCalculator implements TaxCalculator {
 
     @Override
     public BigDecimal calculateTax(double income) {
-        BigDecimal grossIncome = BigDecimal.valueOf(income);
-        BigDecimal taxRate = BigDecimal.valueOf(PERCENTAGE_TAX_RATE / 100);
-        return grossIncome.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
+        return Calculate.tax(income, PERCENTAGE_TAX_RATE);
     }
 
     @Override
     public BigDecimal incomeAfterTax(double income) {
-        BigDecimal grossIncome = BigDecimal.valueOf(income);
-        BigDecimal rate = BigDecimal.valueOf((100 - PERCENTAGE_TAX_RATE) / 100);
-        return grossIncome.multiply(rate).setScale(2, RoundingMode.HALF_UP);
+        return Calculate.netIncome(income, PERCENTAGE_TAX_RATE);
     }
-
 }
