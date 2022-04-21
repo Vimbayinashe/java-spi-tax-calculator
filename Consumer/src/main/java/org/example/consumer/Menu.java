@@ -7,6 +7,7 @@ public class Menu {
     public static Scanner scanner = new Scanner(System.in);
 
     public void run() {
+        displayGreeting();
         int choice;
         do {
             printMenu();
@@ -22,11 +23,15 @@ public class Menu {
     private void handleChoice(int age) {
         if(age == 0)
             exit();
-        if(age < 0)
+        else if(age < 0)
             invalidAge();
-        if(age < 15)
+        else if(age < 15)
             minor();
+        else
+            calculateTax(age);
+    }
 
+    private void calculateTax(int age) {
         TaxCalculation taxCalculation = new TaxCalculation(age);
         taxCalculation.start();
     }
@@ -57,15 +62,17 @@ public class Menu {
     }
 
     private void printMenu() {
+        System.out.println("Please enter your age to calculate your net income & tax or '0' to exit ...");
+    }
+
+    private void displayGreeting() {
         System.out.println(
                 """
-                
+                =============================================================================
                 Welcome to the Tax Declaration Office Help Service
-                
-                Please enter your age or '0' to exit
                 """
         );
-
     }
+
 
 }
