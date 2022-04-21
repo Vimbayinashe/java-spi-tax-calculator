@@ -10,7 +10,7 @@
     <modules>
         <module>Interface</module>
         <module>Consumer</module>
-        <module>PensionerProvider</module>
+        <module>Provider</module>
         <module>WorkingAgeProvider</module>
     </modules>
     <packaging>pom</packaging>

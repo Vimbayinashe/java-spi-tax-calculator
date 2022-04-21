@@ -1,14 +1,13 @@
-package org.example.workingage;
+package org.example.provide;
 
 import org.example.calculator.TaxCalculator;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class WorkingAgeCalculator implements TaxCalculator {
+public class PensionerCalculator implements TaxCalculator {
 
-    private static final double PERCENTAGE_TAX_RATE = 24.00;
-
+    private static final double PERCENTAGE_TAX_RATE = 10.00;
 
     @Override
     public BigDecimal calculateTax(double income) {
@@ -23,4 +22,5 @@ public class WorkingAgeCalculator implements TaxCalculator {
         BigDecimal rate = BigDecimal.valueOf((100 - PERCENTAGE_TAX_RATE) / 100);
         return grossIncome.multiply(rate).setScale(2, RoundingMode.HALF_UP);
     }
+
 }
