@@ -7,10 +7,22 @@ import java.util.ServiceLoader;
 public class Menu {
 
     public void run() {
+        pensioner();
+        workingAge();
+    }
+
+    private void pensioner() {
+        TaxCalculator calculator = getTaxCalculator("Pensioner");
+        var tax = calculator.calculateTax(10000);
+        var netIncome = calculator.incomeAfterTax(10000);
+        System.out.println("Pensioner: tax is " + tax + " kr + net income is " + netIncome + "kr.");
+    }
+
+    private void workingAge() {
         TaxCalculator calculator = getTaxCalculator("Working");
         var tax = calculator.calculateTax(10000);
         var netIncome = calculator.incomeAfterTax(10000);
-        System.out.println("Tax is " + tax + " kr + net income is " + netIncome + "kr.");
+        System.out.println("Age 15 - 65: tax is " + tax + " kr + net income is " + netIncome + "kr.");
     }
 
     private static TaxCalculator getTaxCalculator(String ageGroup) {
