@@ -1,14 +1,13 @@
-package org.example.provide;
+package org.example.calculatorprovider;
 
 import org.example.taxcalculator.TaxCalculator;
 import org.example.mapper.Calculate;
 
 import java.math.BigDecimal;
 
-public class WorkingAgeCalculator implements TaxCalculator {
+public class PensionerCalculator implements TaxCalculator {
 
-    private static final double PERCENTAGE_TAX_RATE = 24.00;
-
+    private static final double PERCENTAGE_TAX_RATE = 10.00;
 
     @Override
     public BigDecimal calculateTax(double income) {

@@ -1,5 +1,5 @@
-import org.example.provide.PensionerCalculator;
-import org.example.provide.WorkingAgeCalculator;
+import org.example.calculatorprovider.PensionerCalculator;
+import org.example.calculatorprovider.WorkingAgeCalculator;
 import org.example.taxcalculator.TaxCalculator;
 
 module Provider {
