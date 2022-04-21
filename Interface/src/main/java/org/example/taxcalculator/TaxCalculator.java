@@ -1,4 +1,4 @@
-package org.example.calculator;
+package org.example.taxcalculator;
 
 import java.math.BigDecimal;
 

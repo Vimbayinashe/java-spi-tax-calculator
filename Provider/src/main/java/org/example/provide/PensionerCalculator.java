@@ -1,6 +1,6 @@
 package org.example.provide;
 
-import org.example.calculator.TaxCalculator;
+import org.example.taxcalculator.TaxCalculator;
 import org.example.mapper.Calculate;
 
 import java.math.BigDecimal;
