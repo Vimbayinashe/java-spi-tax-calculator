@@ -2,9 +2,11 @@ package org.example.calculatorprovider;
 
 import org.example.taxcalculator.TaxCalculator;
 import org.example.mapper.Calculate;
+import org.example.taxcalculator.TaxCategory;
 
 import java.math.BigDecimal;
 
+@TaxCategory("pension")
 public class PensionerCalculator implements TaxCalculator {
 
     private static final double PERCENTAGE_TAX_RATE = 10.00;
