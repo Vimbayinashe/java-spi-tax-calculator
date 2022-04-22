@@ -63,7 +63,6 @@ public class TaxCalculation {
         var tax = calculator.calculateTax(income);
         var netIncome = calculator.incomeAfterTax(income);
         return new NetIncomeAndTax(netIncome, tax);
-        //System.out.println("Pensioner: tax is " + tax + " kr + net income is " + netIncome + "kr.");
     }
 
     private NetIncomeAndTax workingAge(double income) {
@@ -71,7 +70,6 @@ public class TaxCalculation {
         var tax = calculator.calculateTax(income);
         var netIncome = calculator.incomeAfterTax(income);
         return new NetIncomeAndTax(netIncome, tax);
-        // System.out.println("Age 15 - 65: tax is " + tax + " kr + net income is " + netIncome + "kr.");
     }
 
     private static TaxCalculator getTaxCalculator(String ageGroup) {
