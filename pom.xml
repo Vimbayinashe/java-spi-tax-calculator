@@ -10,7 +10,7 @@
     <modules>
         <module>Interface</module>
         <module>Consumer</module>
-        <module>Provider</module>
+        <module>CalculatorProvider</module>
     </modules>
     <packaging>pom</packaging>
 
