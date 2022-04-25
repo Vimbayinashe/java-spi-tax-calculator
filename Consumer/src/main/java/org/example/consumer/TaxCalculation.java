@@ -18,17 +18,8 @@ public class TaxCalculation {
         this.income = BigDecimal.valueOf(income).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public void calculate() {
-        var taxResult =  taxResult();
-        displayResult(taxResult);
-    }
-
-    private void displayResult(TaxResult taxResult) {
-        System.out.println();
-        System.out.println("Result for a " + taxResult.age() + " year old person with a total income of " + taxResult.totalIncome() + " kr:");
-        System.out.println("NetIncome - " + taxResult.netIncome() + " kr");
-        System.out.println("Tax - " + taxResult.tax() + " kr");
-        System.out.println("---------------------------------------------------------------------------");
+    public TaxResult calculate() {
+        return taxResult();
     }
 
     private String getCategory() {

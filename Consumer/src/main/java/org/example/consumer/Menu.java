@@ -34,7 +34,17 @@ public class Menu {
     private void calculateTax(int age) {
         double income = getTotalIncome();
         TaxCalculation taxCalculation = new TaxCalculation(age, income);
-        taxCalculation.calculate();
+        TaxResult taxResult = taxCalculation.calculate();
+        displayResult(taxResult);
+    }
+
+    private void displayResult(TaxResult taxResult) {
+        System.out.println();
+        System.out.println("Result for a " + taxResult.age() +
+                           " year old person with a total income of " + taxResult.totalIncome() + " kr:");
+        System.out.println("NetIncome - " + taxResult.netIncome() + " kr");
+        System.out.println("Tax - " + taxResult.tax() + " kr");
+        System.out.println("---------------------------------------------------------------------------");
     }
 
     private double getTotalIncome() {
