@@ -1,50 +1,56 @@
 package org.example.consumer;
 
-import java.util.Scanner;
+import org.example.taxcalculator.TaxCalculator;
+import org.example.taxcalculator.TaxCategory;
+
+import java.util.*;
 
 public class Menu {
 
-    public static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private final List<String> taxOptions;
+
+    public Menu() {
+        taxOptions = getTaxOptions();
+    }
 
     public void run() {
         displayGreeting();
         int choice;
         do {
             printMenu();
-            choice = getAge();
+            choice = getChoice();
             handleChoice(choice);
-        } while (valid(choice) );
+        } while (valid(choice));
     }
 
-    private boolean valid(int choice) {
-        return choice < 0 || choice >= 15;
-    }
-
-    private void handleChoice(int age) {
-        if(age == 0)
+    private void handleChoice(int choice) {
+        if (choice == 0)
             exit();
-        else if(age < 0)
-            invalidAge();
-        else if(age < 15)
-            minor();
+        else if (choice < 0 || choice > taxOptions.size())
+            invalidChoice("category from the menu");
         else
-            calculateTax(age);
+            taxCalculation(choice);
     }
 
-    private void calculateTax(int age) {
+    private void taxCalculation(int choice) {
+        TaxResult taxResult  = calculateTax(choice);
+        displayResult(taxResult, taxCategory(choice));
+    }
+
+    private TaxResult calculateTax(int choice) {
+        String taxCategory = taxCategory(choice);
         double income = getTotalIncome();
-        TaxCalculation taxCalculation = new TaxCalculation(age, income);
-        TaxResult taxResult = taxCalculation.calculate();
-        displayResult(taxResult);
+        return getTaxResult(taxCategory, income);
     }
 
-    private void displayResult(TaxResult taxResult) {
-        System.out.println();
-        System.out.println("Result for a " + taxResult.age() +
-                           " year old person with a total income of " + taxResult.totalIncome() + " kr:");
-        System.out.println("NetIncome - " + taxResult.netIncome() + " kr");
-        System.out.println("Tax - " + taxResult.tax() + " kr");
-        System.out.println("---------------------------------------------------------------------------");
+    private String taxCategory(int choice) {
+        return taxOptions.get(choice - 1);
+    }
+
+    private TaxResult getTaxResult(String taxCategory, double income) {
+        TaxCalculation taxCalculation = new TaxCalculation(taxCategory, income);
+        return taxCalculation.calculate();
     }
 
     private double getTotalIncome() {
@@ -68,43 +74,66 @@ public class Menu {
         return income;
     }
 
-    private void minor() {
-        System.out.println("Please ask a guardian to contact the Tax Office on your behalf.");
+    private boolean valid(int choice) {
+        return choice != 0;
     }
 
-    private void invalidAge() {
-        System.out.println("Please enter a valid age.");
+    private void invalidChoice(String property) {
+        System.out.println("Please enter a valid " + property);
     }
 
     private void exit() {
         System.out.println("Thank-you for visiting Tax Declaration Office Help Service!");
     }
 
-    private int getAge() {
+    private int getChoice() {
         int choice;
         while (true) {
             try {
                 choice = Integer.parseInt(scanner.nextLine());
                 break;
             } catch (NumberFormatException e) {
-                invalidAge();
+                invalidChoice("number");
             }
         }
         return choice;
     }
 
+    private void displayResult(TaxResult taxResult, String taxCategory) {
+        System.out.println();
+        System.out.println("Result for an individual in the '" + taxCategory +  "' tax bracket:");
+        System.out.println("Total income - " + taxResult.totalIncome() + " kr");
+        System.out.println("NetIncome - " + taxResult.netIncome() + " kr");
+        System.out.println("Tax - " + taxResult.tax() + " kr");
+        System.out.println("---------------------------------------------------------------------------");
+    }
+
     private void printMenu() {
-        System.out.println("Please enter your age to calculate your net income & tax or '0' to exit ...");
+        int count = 1;
+        System.out.println("Please choose a tax category below or '0' to exit the program.");
+        for (String taxOption : taxOptions) {
+            System.out.println(count + ". " + taxOption.substring(0, 1).toUpperCase() + taxOption.substring(1));
+            count++;
+        }
     }
 
     private void displayGreeting() {
         System.out.println(
                 """
-                =============================================================================
-                Welcome to the Tax Declaration Office Help Service
-                """
+                        =============================================================================
+                        Welcome to the Tax Declaration Office Help Service
+                        """
         );
     }
 
+    private List<String> getTaxOptions() {
+        ServiceLoader<TaxCalculator> serviceLoader = ServiceLoader.load(TaxCalculator.class);
+        List<String> list = new ArrayList<>();
 
+        for (TaxCalculator calculator : serviceLoader) {
+            TaxCategory annotation = calculator.getClass().getAnnotation(TaxCategory.class);
+            list.add(annotation.value());
+        }
+        return list;
+    }
 }

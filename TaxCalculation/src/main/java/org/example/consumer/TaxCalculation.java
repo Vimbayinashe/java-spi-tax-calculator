@@ -10,11 +10,11 @@ import java.util.ServiceLoader;
 
 public class TaxCalculation {
 
-    private final int age;
+    private final String category;
     private final BigDecimal income;
 
-    public TaxCalculation(int age, double income) {
-        this.age = age;
+    public TaxCalculation( String category, double income) {
+        this.category = category;
         this.income = BigDecimal.valueOf(income).setScale(2, RoundingMode.HALF_UP);
     }
 
@@ -22,17 +22,12 @@ public class TaxCalculation {
         return taxResult();
     }
 
-    private String getCategory() {
-        return age > 65 ? "pension" : "ordinary";
-    }
-
     private TaxResult taxResult() {
-        String category = getCategory();
         TaxCalculator calculator = getTaxCalculator(category)
                 .orElseThrow(() -> new IllegalArgumentException(category + " category not found"));
         BigDecimal tax = calculator.calculateTax(income);
         BigDecimal netIncome = calculator.incomeAfterTax(income);
-        return new TaxResult(income, netIncome, tax, age);
+        return new TaxResult(income, netIncome, tax);
     }
 
     private Optional<TaxCalculator> getTaxCalculator(String category) {
@@ -46,5 +41,4 @@ public class TaxCalculation {
         }
         return taxCalculator;
     }
-
 }
