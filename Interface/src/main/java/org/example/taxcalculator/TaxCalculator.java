@@ -3,7 +3,7 @@ package org.example.taxcalculator;
 import java.math.BigDecimal;
 
 public interface TaxCalculator {
-    BigDecimal calculateTax(double income);
+    BigDecimal calculateTax(BigDecimal income);
 
-    BigDecimal incomeAfterTax(double income);
+    BigDecimal incomeAfterTax(BigDecimal income);
 }

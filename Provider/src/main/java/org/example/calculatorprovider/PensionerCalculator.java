@@ -12,12 +12,12 @@ public class PensionerCalculator implements TaxCalculator {
     private static final double PERCENTAGE_TAX_RATE = 10.00;
 
     @Override
-    public BigDecimal calculateTax(double income) {
+    public BigDecimal calculateTax(BigDecimal income) {
         return Calculate.tax(income, PERCENTAGE_TAX_RATE);
     }
 
     @Override
-    public BigDecimal incomeAfterTax(double income) {
+    public BigDecimal incomeAfterTax(BigDecimal income) {
         return Calculate.netIncome(income, PERCENTAGE_TAX_RATE);
     }
 }

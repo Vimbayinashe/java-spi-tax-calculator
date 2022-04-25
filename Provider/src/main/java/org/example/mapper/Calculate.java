@@ -5,16 +5,14 @@ import java.math.RoundingMode;
 
 public class Calculate {
 
-    public static BigDecimal tax(double income, double percentageTaxRate) {
-        BigDecimal grossIncome = BigDecimal.valueOf(income);
+    public static BigDecimal tax(BigDecimal income, double percentageTaxRate) {
         BigDecimal taxRate = BigDecimal.valueOf(percentageTaxRate / 100);
-        return grossIncome.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
+        return income.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal netIncome(double income, double percentageTaxRate) {
-        BigDecimal grossIncome = BigDecimal.valueOf(income);
+    public static BigDecimal netIncome(BigDecimal income, double percentageTaxRate) {
         BigDecimal rate = BigDecimal.valueOf((100 - percentageTaxRate) / 100);
-        return grossIncome.multiply(rate).setScale(2, RoundingMode.HALF_UP);
+        return income.multiply(rate).setScale(2, RoundingMode.HALF_UP);
     }
 
 }

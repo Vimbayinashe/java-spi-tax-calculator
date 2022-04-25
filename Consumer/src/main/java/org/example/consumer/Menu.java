@@ -34,7 +34,7 @@ public class Menu {
     private void calculateTax(int age) {
         double income = getTotalIncome();
         TaxCalculation taxCalculation = new TaxCalculation(age, income);
-        taxCalculation.start();
+        taxCalculation.calculate();
     }
 
     private double getTotalIncome() {
