@@ -19,15 +19,15 @@ public class TaxCalculation {
     }
 
     public void calculate() {
-        NetIncomeAndTax netIncomeAndTax = calculate(income);
-        displayResult(income, netIncomeAndTax, age);
+        var taxResult =  taxResult();
+        displayResult(taxResult);
     }
 
-    private void displayResult(BigDecimal income, NetIncomeAndTax netIncomeAndTax, int age) {
+    private void displayResult(TaxResult taxResult) {
         System.out.println();
-        System.out.println("Result for a " + age + " year old person with a total income of " + income + " kr:");
-        System.out.println("NetIncome - " + netIncomeAndTax.netIncome() + " kr");
-        System.out.println("Tax - " + netIncomeAndTax.tax() + " kr");
+        System.out.println("Result for a " + taxResult.age() + " year old person with a total income of " + taxResult.totalIncome() + " kr:");
+        System.out.println("NetIncome - " + taxResult.netIncome() + " kr");
+        System.out.println("Tax - " + taxResult.tax() + " kr");
         System.out.println("---------------------------------------------------------------------------");
     }
 
@@ -35,13 +35,13 @@ public class TaxCalculation {
         return age > 65 ? "pension" : "ordinary";
     }
 
-    private NetIncomeAndTax calculate(BigDecimal income) {
+    private TaxResult taxResult() {
         String category = getCategory();
         TaxCalculator calculator = getTaxCalculator(category)
                 .orElseThrow(() -> new IllegalArgumentException(category + " category not found"));
         BigDecimal tax = calculator.calculateTax(income);
         BigDecimal netIncome = calculator.incomeAfterTax(income);
-        return new NetIncomeAndTax(netIncome, tax);
+        return new TaxResult(income, netIncome, tax, age);
     }
 
     private static Optional<TaxCalculator> getTaxCalculator(String category) {
