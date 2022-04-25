@@ -32,8 +32,30 @@ public class Menu {
     }
 
     private void calculateTax(int age) {
-        TaxCalculation taxCalculation = new TaxCalculation(age);
+        double income = getTotalIncome();
+        TaxCalculation taxCalculation = new TaxCalculation(age, income);
         taxCalculation.start();
+    }
+
+    private double getTotalIncome() {
+        double income;
+        while (true) {
+            System.out.println("Please enter your total income");
+            String input = scanner.nextLine().replace(",", ".");
+
+            try {
+                income = Double.parseDouble(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid decimal or whole number.");
+                continue;
+            }
+
+            if (income > 0)
+                break;
+            else
+                System.out.println("Please enter a number greater than 0.");
+        }
+        return income;
     }
 
     private void minor() {

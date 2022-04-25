@@ -14,14 +14,15 @@ public class TaxCalculation {
     public static Scanner scanner = new Scanner(System.in);
     private final int age;
     private final String category;
+    private final double income;
 
-    public TaxCalculation(int age) {
+    public TaxCalculation(int age, double income) {
         this.age = age;
         this.category = category(age);
+        this.income = income;
     }
 
     public void start() {
-        double income = getTotalIncome();
         NetIncomeAndTax netIncomeAndTax = calculate(income);
         displayResult(income, netIncomeAndTax);
     }
@@ -46,26 +47,7 @@ public class TaxCalculation {
         // return handleCalculation(income);
     }
 
-    private double getTotalIncome() {
-        double income;
-        while (true) {
-            System.out.println("Please enter your total income");
-            String input = scanner.nextLine().replace(",", ".");
 
-            try {
-                income = Double.parseDouble(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid decimal or whole number.");
-                continue;
-            }
-
-            if (income > 0)
-                break;
-            else
-                System.out.println("Please enter a number greater than 0.");
-        }
-        return income;
-    }
 
     private NetIncomeAndTax pensioner(double income) {
         TaxCalculator calculator = getTaxCalculator("pension");
