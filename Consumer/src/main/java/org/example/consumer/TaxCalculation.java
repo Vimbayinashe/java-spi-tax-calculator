@@ -35,7 +35,7 @@ public class TaxCalculation {
         return new TaxResult(income, netIncome, tax, age);
     }
 
-    private static Optional<TaxCalculator> getTaxCalculator(String category) {
+    private Optional<TaxCalculator> getTaxCalculator(String category) {
         ServiceLoader<TaxCalculator> serviceLoader = ServiceLoader.load(TaxCalculator.class);
         Optional<TaxCalculator> taxCalculator = Optional.empty();
 
